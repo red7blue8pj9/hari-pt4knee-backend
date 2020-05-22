@@ -162,7 +162,7 @@ class DateCountByYear(db.Model):
 
 class ProcedureCategory(db.Model):
     __tablename__ = "PROC_CATE_COUNT"
-    KNEE_PROC_CATE = db.Column(db.String, primary_key=True)
+    KNEE_PROC_CATE = db.Column(db.String(50), primary_key=True)
     DISTINCT_STUDY_ID = db.Column(db.Integer)
 
     def json(self):
@@ -178,8 +178,8 @@ class ProcedureCategory(db.Model):
 
 class ProcedureSubCategory(db.Model):
     __tablename__ = "PROC_SUBCATE_COUNT"
-    KNEE_PROC_CATE = db.Column(db.String, primary_key=True)
-    KNEE_PROC_SUBCATE = db.Column(db.String, primary_key=True)
+    KNEE_PROC_CATE = db.Column(db.String(50), primary_key=True)
+    KNEE_PROC_SUBCATE = db.Column(db.String(50), primary_key=True)
     DISTINCT_STUDY_ID = db.Column(db.Integer)
 
     def json(self):
