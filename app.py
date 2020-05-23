@@ -36,6 +36,7 @@ DB_NAME = os.environ.get('DATABASE_NAME')
 # DB_HOST = 'localhost'
 # DB_PORT = '3306'
 # DB_NAME = 'test'
+# config
 DB_DATA_NAME = 'rehab_data'
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_UNAME + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + DB_PORT + '/' + DB_NAME
 app.config[
@@ -116,7 +117,8 @@ def refresh():
 
 
 # endpoint to show all dataset
-@app.route('/api/dataset/all', methods=['GET'])
+@app.route('/api/dataset/all', methods=['POST'])
+@jwt_required
 def get_all_tables():
     tables = TableModel.find_all_tables()
     data = []
@@ -127,7 +129,8 @@ def get_all_tables():
 
 
 # visualization
-@app.route("/api/vis/date_count_day", methods=["GET"])
+@app.route("/api/vis/date_count_day", methods=["POST"])
+@jwt_required
 def get_date_count_day():
     rows = DateCount.find_all_values()
     data = []
@@ -136,7 +139,8 @@ def get_date_count_day():
     return jsonify({'ok': True, 'data': data})
 
 
-@app.route("/api/vis/date_count_month", methods=["GET"])
+@app.route("/api/vis/date_count_month", methods=["POST"])
+@jwt_required
 def get_date_count_month():
     rows = DateCountByMonth.find_all_values()
     data = []
@@ -145,7 +149,8 @@ def get_date_count_month():
     return jsonify({'ok': True, 'data': data})
 
 
-@app.route("/api/vis/date_count_year", methods=["GET"])
+@app.route("/api/vis/date_count_year", methods=["POST"])
+@jwt_required
 def get_date_count_year():
     rows = DateCountByYear.find_all_values()
     data = []
@@ -154,7 +159,8 @@ def get_date_count_year():
     return jsonify({'ok': True, 'data': data})
 
 
-@app.route("/api/vis/proc_cate", methods=["GET"])
+@app.route("/api/vis/proc_cate", methods=["POST"])
+@jwt_required
 def get_proc_cate():
     rows = ProcedureCategory.find_all_values()
     data = []
@@ -163,7 +169,8 @@ def get_proc_cate():
     return jsonify({'ok': True, 'data': data})
 
 
-@app.route("/api/vis/proc_subcate", methods=["GET"])
+@app.route("/api/vis/proc_subcate", methods=["POST"])
+@jwt_required
 def get_proc_subcate():
     rows = ProcedureSubCategory.find_all_values()
     data = []
@@ -173,6 +180,7 @@ def get_proc_subcate():
 
 
 @app.route("/api/download/<file_name>", methods=["GET"])
+@jwt_required
 def download_file(file_name):
     sql = """select * from rehab_data.""" + file_name
     results = db.engine.execute(sql)

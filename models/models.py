@@ -47,13 +47,7 @@ class TableModel(db.Model):
     modified_time = db.Column(db.Date)
     admin_user = db.Column(db.String(30))
     restriction_level = db.Column(db.Integer)
-
-    def __init__(self, table_name, create_time, modified_time, admin_user, restriction_level):
-        self.table_name = table_name
-        self.create_time = create_time
-        self.modified_time = modified_time,
-        self.admin_user = admin_user,
-        self.restriction_level = restriction_level
+    description = db.Column(db.String(255))
 
     def json(self):
         return {
@@ -62,7 +56,8 @@ class TableModel(db.Model):
             "create_time": self.create_time,
             "modified_time": self.modified_time,
             "admin_user": self.admin_user,
-            "restriction_level": self.restriction_level
+            "restriction_level": self.restriction_level,
+            "description" : self.description,
         }
 
     # Method to save table to DB
