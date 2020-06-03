@@ -49,6 +49,15 @@ class TableModel(db.Model):
     restriction_level = db.Column(db.Integer)
     description = db.Column(db.String(255))
 
+    def __init__(self, id, table_name, create_time, modified_time, admin_user, restriction_level, description):
+        self.id = id
+        self.table_name = table_name
+        self.create_time = create_time
+        self.modified_time = modified_time
+        self.admin_user = admin_user
+        self.restriction_level = restriction_level
+        self.description = description
+
     def json(self):
         return {
             "id": self.id,
@@ -57,7 +66,7 @@ class TableModel(db.Model):
             "modified_time": self.modified_time,
             "admin_user": self.admin_user,
             "restriction_level": self.restriction_level,
-            "description" : self.description,
+            "description": self.description,
         }
 
     # Method to save table to DB
@@ -93,6 +102,12 @@ class DateCount(db.Model):
     DISTINCT_STUDY_ID = db.Column(db.Integer)
     DISTINCT_VISIT_ID = db.Column(db.Integer)
     TOT_COLUMNS = db.Column(db.Integer)
+
+    def __init__(self, START_DATE, DISTINCT_STUDY_ID, DISTINCT_VISIT_ID, TOT_COLUMNS):
+        self.START_DATE = START_DATE
+        self.DISTINCT_STUDY_ID = DISTINCT_STUDY_ID
+        self.DISTINCT_VISIT_ID = DISTINCT_VISIT_ID
+        self.TOT_COLUMNS = TOT_COLUMNS
 
     def json(self):
         return {
@@ -142,6 +157,12 @@ class DateCountByYear(db.Model):
     DISTINCT_VISIT_ID = db.Column(db.Integer)
     TOT_COLUMNS = db.Column(db.Integer)
 
+    def __init__(self, YEAR, DISTINCT_STUDY_ID, DISTINCT_VISIT_ID, TOT_COLUMNS):
+        self.YEAR = YEAR
+        self.DISTINCT_STUDY_ID = DISTINCT_STUDY_ID
+        self.DISTINCT_VISIT_ID = DISTINCT_VISIT_ID
+        self.TOT_COLUMNS = TOT_COLUMNS
+
     def json(self):
         return {
             "TIME": self.YEAR,
@@ -160,6 +181,10 @@ class ProcedureCategory(db.Model):
     KNEE_PROC_CATE = db.Column(db.String(50), primary_key=True)
     DISTINCT_STUDY_ID = db.Column(db.Integer)
 
+    def __init__(self, KNEE_PROC_CATE, DISTINCT_STUDY_ID):
+        self.KNEE_PROC_CATE = KNEE_PROC_CATE
+        self.DISTINCT_STUDY_ID = DISTINCT_STUDY_ID
+
     def json(self):
         return {
             "KNEE_PROC_CATE": self.KNEE_PROC_CATE,
@@ -177,11 +202,39 @@ class ProcedureSubCategory(db.Model):
     KNEE_PROC_SUBCATE = db.Column(db.String(50), primary_key=True)
     DISTINCT_STUDY_ID = db.Column(db.Integer)
 
+    def __init__(self, KNEE_PROC_CATE, KNEE_PROC_SUBCATE, DISTINCT_STUDY_ID):
+        self.KNEE_PROC_CATE = KNEE_PROC_CATE
+        self.KNEE_PROC_SUBCATE = KNEE_PROC_SUBCATE
+        self.DISTINCT_STUDY_ID = DISTINCT_STUDY_ID
+
     def json(self):
         return {
             "KNEE_PROC_CATE": self.KNEE_PROC_CATE,
             "KNEE_PROC_SUBCATE": self.KNEE_PROC_SUBCATE,
             "DISTINCT_STUDY_ID": self.DISTINCT_STUDY_ID
+        }
+
+    @classmethod
+    def find_all_values(cls):
+        return cls.query.all()
+
+
+class LocationEnc(db.Model):
+    __tablename__ = "LOCATION_ENC"
+    LOCATION = db.Column(db.String(50), primary_key=True)
+    START_DATE = db.Column(db.String(50), primary_key=True)
+    VISITS = db.Column(db.Integer)
+
+    def __init__(self, LOCATION, START_DATE, VISITS):
+        self.LOCATION = LOCATION
+        self.START_DATE = START_DATE
+        self.VISITS = VISITS
+
+    def json(self):
+        return {
+            "LOCATION": self.LOCATION,
+            "START_DATE": self.START_DATE,
+            "VISITS": self.VISITS
         }
 
     @classmethod

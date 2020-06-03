@@ -24,18 +24,18 @@ jwt = JWTManager(app)
 flask_bcrypt = Bcrypt(app)
 
 # mysql
-DB_UNAME = os.environ.get('DATABASE_USER')
-DB_PASSWORD = os.environ.get('DATABASE_PASS')
-DB_PORT = os.environ.get('DATABASE_PORT')
-DB_HOST = os.environ.get('DATABASE_HOST')
-DB_NAME = os.environ.get('DATABASE_NAME')
+# DB_UNAME = os.environ.get('DATABASE_USER')
+# DB_PASSWORD = os.environ.get('DATABASE_PASS')
+# DB_PORT = os.environ.get('DATABASE_PORT')
+# DB_HOST = os.environ.get('DATABASE_HOST')
+# DB_NAME = os.environ.get('DATABASE_NAME')
 
 # local mysql
-# DB_UNAME = 'root'
-# DB_PASSWORD = 'root'
-# DB_HOST = 'localhost'
-# DB_PORT = '3306'
-# DB_NAME = 'test'
+DB_UNAME = 'root'
+DB_PASSWORD = 'root'
+DB_HOST = 'localhost'
+DB_PORT = '3306'
+DB_NAME = 'test'
 # config
 DB_DATA_NAME = 'rehab_data'
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + DB_UNAME + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + DB_PORT + '/' + DB_NAME
@@ -179,10 +179,20 @@ def get_proc_subcate():
     return jsonify({'ok': True, 'data': data})
 
 
+@app.route("/api/vis/location_enc", methods=["POST"])
+# @jwt_required
+def get_location_enc():
+    rows = LocationEnc.find_all_values()
+    data = []
+    for t in rows:
+        data.append(t.json())
+    return jsonify({'ok': True, 'data': data})
+
+
 @app.route("/api/download/<file_name>", methods=["GET"])
 @jwt_required
 def download_file(file_name):
-    sql = """select * from rehab_data.""" + file_name
+    sql = """select * from """ + file_name
     results = db.engine.execute(sql)
     header = results.keys()
     data = results.fetchall()
